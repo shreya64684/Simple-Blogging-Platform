@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogging Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Simple Blogging Platform</h2>
+        <div class="post-container">
+            <h3>Create a Post</h3>
+            <input type="text" id="title" placeholder="Title"><br><br>
+            <textarea id="content" placeholder="Content"></textarea><br><br>
+            <input type="text" id="author" placeholder="Author"><br><br>
+            <button onclick="addPost()">Add Post</button>
+        </div>
+        <h3>All Posts</h3>
+        <div id="posts"></div>
+    </div>
+    <script>
+        const API_URL = "http://localhost:3000";
+
+        loadPosts();
+
+        async function addPost() {
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+            const author = document.getElementById("author").value;
+
+            if (!title || !content || !author) {
+                alert("All fields are required!");
+                return;
+            }
+
+            const response = await fetch(`${API_URL}/addPost`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ title, content, author })
+            });
+            console.log(response);
+            
+            const data = await response.json();
+            console.log(data);
+            
+            alert(data.message);
+            loadPosts();
+        }
+
+        async function loadPosts() {
+            const response = await fetch(`${API_URL}/getPosts`);
+            const posts = await response.json();
+            console.log(posts);
+            
+            document.getElementById("posts").innerHTML = posts.map(post => `
+                <div class="post">
+                    <h4>${post.Title} by ${post.Author}</h4>
+                    <p>${post.Content}</p>
+                    <button onclick="deletePost('${post.PostId}')">Delete</button>
+                </div>
+            `).join("");
+        }
+
+        async function deletePost(id) {
+            await fetch(`${API_URL}/deletePost/${id}`, { method: "DELETE" });
+            alert("Post deleted!");
+            loadPosts();
+        }
+
+        loadPosts();
+    </script>
+</body>
+</html>
