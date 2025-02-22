@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 const path = require('path');
 const dotenv = require("dotenv");
 const { env } = require("process");
+const cors = require("cors");
 dotenv.config();
 
 const app = express();
