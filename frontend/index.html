@@ -20,7 +20,7 @@
         <div id="posts"></div>
     </div>
     <script>
-        const API_URL = "http://localhost:3000";
+        const API_URL = "http://51.20.72.3:3000";
 
         loadPosts();
 
@@ -34,7 +34,9 @@
                 return;
             }
 
-            const response = await fetch(`${API_URL}/addPost`, {
+            // const response = await fetch(`${API_URL}/addPost`, {
+            const response = await fetch(`/addPost`, {
+            
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ title, content, author })
@@ -49,7 +51,8 @@
         }
 
         async function loadPosts() {
-            const response = await fetch(`${API_URL}/getPosts`);
+            // const response = await fetch(`${API_URL}/getPosts`);
+            const response = await fetch(`/getPosts`);
             const posts = await response.json();
             console.log(posts);
             
@@ -63,7 +66,8 @@
         }
 
         async function deletePost(id) {
-            await fetch(`${API_URL}/deletePost/${id}`, { method: "DELETE" });
+            // await fetch(`${API_URL}/deletePost/${id}`, { method: "DELETE" });
+            await fetch(`/deletePost/${id}`, { method: "DELETE" });
             alert("Post deleted!");
             loadPosts();
         }
