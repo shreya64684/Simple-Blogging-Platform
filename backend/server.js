@@ -32,10 +32,11 @@ const TABLE_NAME = "BlogPosts";
 // Add a new blog post
 app.post("/addPost", async (req, res) => {
     const { title, content, author } = req.body;
+    console.log("req.body:" , req.body);
     if (!title || !content || !author) return res.status(400).json({ error: "All fields required" });
 
     const post = {
-        PostId: uuidv4(),
+        PostID: uuidv4(),
         Title: title,
         Content: content,
         Author: author,
@@ -67,7 +68,7 @@ app.delete("/deletePost/:id", async (req, res) => {
     const { id } = req.params;
     console.log(id);
     try {
-        await dynamoDB.delete({ TableName: TABLE_NAME, Key: { PostId: id } }).promise();
+        await dynamoDB.delete({ TableName: TABLE_NAME, Key: { PostID: id } }).promise();
         console.log("Post deleted successfully!");
         res.json({ message: "Post deleted successfully!" });
     } catch (err) {

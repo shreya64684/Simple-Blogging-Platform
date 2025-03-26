@@ -20,7 +20,7 @@
         <div id="posts"></div>
     </div>
     <script>
-        const API_URL = "http://52.66.81.169:3000";
+        const API_URL = "http://localhost:3000";
 
         loadPosts();
 
@@ -60,7 +60,7 @@
                 <div class="post">
                     <h4>${post.Title} by ${post.Author}</h4>
                     <p>${post.Content}</p>
-                    <button onclick="deletePost('${post.PostId}')">Delete</button>
+                    <button onclick="deletePost('${post.PostID}')">Delete</button>
                 </div>
             `).join("");
         }
